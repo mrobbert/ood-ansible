@@ -134,7 +134,7 @@ pun_stage_cmd: "{{ pun_stage_cmd }}"
 #  - 'Require valid-user'
 auth:
 {% for auth in httpd_auth  %}
-  - '{{ auth }}'
+  - "{{ auth }}"
 {% endfor %}
 
 # Redirect user to the following URI when accessing root URI
