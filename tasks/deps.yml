@@ -55,14 +55,14 @@
   when: ansible_os_family != 'Debian'
 
 - name: install all the gems we need
-  gem:
+  community.general.gem:
     name: "{{ item.name }}"
     version: "{{ item.version }}"
     state: present
     user_install: no
   loop:
-  - { name: 'bundler', version: '1.13.7' }
-  - { name: 'rake', version: '12.3.3' }
+  - { name: 'bundler', version: '2.1.4' }
+  - { name: 'rake', version: '13.0.3' }
 
 - name: install apache openidc mod
   package:

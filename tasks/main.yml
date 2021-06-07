@@ -1,11 +1,12 @@
 - name: include distribution variables
-  include_vars: "{{ ansible_distribution }}.yml"
-  tags: [ 'always' ]
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}/{{ ansible_distribution_major_version}}.yml"
+    - "{{ ansible_distribution }}.yml"
 
 - name: include scl related overrides
   include_vars: "{{ ansible_distribution }}-scl.yml"
-  when: not install_from_src
-  tags: [ 'always' ]
+  when: (not install_from_src) and (ansible_os_family == "RedHat" and ansible_distribution_major_version < '8')
 
 - include: deps.yml
   become: true
@@ -27,11 +28,6 @@
   when: not install_from_src
 
 - include: configure.yml
-  become: true
-  tags: [ 'configure' ]
-
-- include: clusters.yml
-  when: clusters is defined
   become: true
   tags: [ 'configure' ]
 
